@@ -15,3 +15,10 @@
 // #define DOUBLE
 // #define MIRROR
 #endif // JOANNA
+
+#ifdef  LONG
+#define NUM_PIXELS 240
+#define BRIGHTNESS 255
+// #define DOUBLE
+// #define MIRROR
+#endif // LONG

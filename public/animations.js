@@ -1,6 +1,7 @@
 var animations = {
-  "0": "Sample",
-  "1": "Sample1",
-  "2": "Sample2",
-  "3": "Sample3",
+  "d": "Debug",
+  "x": "Stop",
+  "1": "Fade to red",
+  "s": "Sparkles",
+  "2": "Twinkle"
 };

@@ -1,20 +1,23 @@
 #include <ESP8266WiFi.h>
-#include <Adafruit_NeoPixel.h>
 
+#include <Adafruit_NeoPixel.h>
 #include <NeoPixelPainter.h>
+
 #include <WebSocketsClient.h>
 #include <Hash.h>
 
 #include "config.h"
 #include "debug.h"
+#include "actions.h"
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
-
-NeoPixelPainterCanvas pixelcanvas = NeoPixelPainterCanvas(&strip);
-NeoPixelPainterBrush pixelbrush = NeoPixelPainterBrush(&pixelcanvas);
+#define CLEAR_ACTIVE_ACTION() \
+  delete activeAction;        \
+  activeAction = NULL
 
 WiFiClient client;
 WebSocketsClient webSocket;
+
+Action* activeAction;
 
 void setup() {
 #ifdef DEBUG
@@ -48,6 +51,18 @@ void setup() {
   ppln("[mc] setup complete");
 }
 
+void loop() {
+  ensureConnected();
+  webSocket.loop();
+  if (activeAction) {
+    if (!activeAction->tick()) {
+      CLEAR_ACTIVE_ACTION();
+      off();
+    }
+    show();
+  }
+}
+
 void webSocketEvent(WStype_t type, uint8_t* payload, size_t lenght) {
   switch (type) {
     case WStype_DISCONNECTED:
@@ -59,20 +74,9 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t lenght) {
     case WStype_TEXT:
       String in = (char*)payload;
       ppln(in);
-      if (in == "0") {
-        strip.setPixelColor(0, strip.Color(255, 0, 0));
-        strip.show();
-      } else {
-        strip.setPixelColor(0, strip.Color(0, 0, 0));
-        strip.show();
-      }
+      activeAction = getAction(in);
       break;
   }
-}
-
-void loop() {
-  ensureConnected();
-  webSocket.loop();
 }
 
 void ensureConnected() {
@@ -83,9 +87,9 @@ void ensureConnected() {
       blink(500);
     }
     ppln(".");
+    pp("[wc] ip address: ");
+    ppln(WiFi.localIP());
   }
-  pp("[wc] ip address: ");
-  ppln(WiFi.localIP());
 }
 
 void blink(int delayLength) {
