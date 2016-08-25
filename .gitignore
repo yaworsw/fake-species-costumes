@@ -1,0 +1,4 @@
+/node_modules
+/embedded/wifi-config.h
+/test
+.DS_Store
