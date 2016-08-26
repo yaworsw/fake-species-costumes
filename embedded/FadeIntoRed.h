@@ -2,7 +2,6 @@
 #include "Action.h"
 #include "config.h"
 #include "strip.h"
-#include "debug.h"
 
 class FadeIntoRed: public Action {
 public:

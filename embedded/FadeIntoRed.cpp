@@ -5,7 +5,6 @@ FadeIntoRed::FadeIntoRed() {
 };
 
 bool FadeIntoRed::tick() {
-  ppln(this->frame);
   if (this->frame++ < 255) {
 
     for (int i = 0; i < NUM_PIXELS; i++) {

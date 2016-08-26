@@ -14,6 +14,8 @@
   delete activeAction;        \
   activeAction = NULL
 
+#define WIFI_CONNECT_ITTERS 10000
+
 WiFiClient client;
 WebSocketsClient webSocket;
 
@@ -29,13 +31,15 @@ void setup() {
   ppln("[mc] starting up");
   ppln("[np] configuring");
 
+  pinMode(STATUS_PIN, OUTPUT);
   pinMode(GROUND_PIN, OUTPUT);
+
   digitalWrite(GROUND_PIN, LOW);
 
   strip.begin();
 #ifdef BRIGHTNESS
   strip.setBrightness(BRIGHTNESS);
-#endif
+#endif // DEBUG
   strip.show();
 
   ppln("[np] configured");
@@ -61,6 +65,7 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t lenght) {
   switch (type) {
     case WStype_DISCONNECTED:
       ppln("[ws] disconnected");
+      connectWebSocket();
       break;
     case WStype_CONNECTED:
       ppln("[ws] connected");
@@ -73,31 +78,43 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t lenght) {
   }
 }
 
+void connectWebSocket() {
+  blink();
+  ppln("[ws] connecting to server");
+  webSocket.begin(SERVER_HOST, SERVER_PORT);
+  webSocket.onEvent(webSocketEvent);
+}
+
 void ensureConnected() {
   if (!connected()) {
     connect();
+    int itters = 0;
     while (!connected()) {
+      itters++;
       pp(".");
-      blink(500);
+      blink();
+      if (itters > WIFI_CONNECT_ITTERS) {
+        ppln();
+        connect();
+        itters = 0;
+      }
     }
     ppln(".");
     pp("[wc] ip address: ");
     ppln(WiFi.localIP());
-    ppln("[wc] connecting to server");
-    webSocket.begin(SERVER_HOST, SERVER_PORT);
-    webSocket.onEvent(webSocketEvent);
+    connectWebSocket();
   }
 }
 
-void blink(int delayLength) {
-  digitalWrite(STATUS_PIN, HIGH);
-  delay(delayLength);
+void blink() {
   digitalWrite(STATUS_PIN, LOW);
-  delay(delayLength);
+  delay(1);
+  digitalWrite(STATUS_PIN, HIGH);
+  delay(1);
 }
 
 void connect() {
-  pp("[wc] connecting to wifi (");
+  pp("[wc] connecting to wifi :");
   ppln(WIFI_SSID);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 }

@@ -1,7 +1,7 @@
 #include "wifi-config.h"
 
 #define JOANNA
-#define DEBUG
+// #define DEBUG
 
 #define PIXEL_PIN   14
 #define GROUND_PIN  12
