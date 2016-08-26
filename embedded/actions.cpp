@@ -8,6 +8,7 @@ Action* getAction(String itIs) {
   _IF(itIs, "d") DebugAction();
   _IF(itIs, "s") Sparkles();
   _IF(itIs, "2") Twinkle();
+  _IF(itIs, "3") FadeRandom();
   ______________ Off();
 }
 

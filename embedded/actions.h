@@ -12,5 +12,6 @@
 #include "DebugAction.h"
 #include "Sparkles.h"
 #include "Twinkle.h"
+#include "FadeRandom.h"
 
 Action* getAction(String in);

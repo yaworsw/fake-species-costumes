@@ -3,9 +3,9 @@
 #include "config.h"
 #include "strip.h"
 
-class FadeIntoRed: public Action {
+class FadeRandom: public Action {
 public:
-  FadeIntoRed();
+  FadeRandom();
   bool tick();
 protected:
   int frame = 0;

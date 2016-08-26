@@ -1,7 +1,7 @@
 #include "wifi-config.h"
 
-#define JOANNA
-// #define DEBUG
+#define DRUMS
+#define DEBUG
 
 #define PIXEL_PIN   14
 #define GROUND_PIN  12
@@ -10,15 +10,15 @@
 #define SERVER_PORT 8080
 
 #ifdef  JOANNA
-#define NUM_PIXELS 60
+#define NUM_PIXELS 43
 #define BRIGHTNESS 255
 // #define DOUBLE
 // #define MIRROR
 #endif // JOANNA
 
-#ifdef  LONG
-#define NUM_PIXELS 240
+#ifdef  DRUMS
+#define NUM_PIXELS 95
 #define BRIGHTNESS 255
 // #define DOUBLE
 // #define MIRROR
-#endif // LONG
+#endif // DRUMS

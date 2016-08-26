@@ -1,10 +1,10 @@
-#include "FadeIntoRed.h"
+#include "FadeRandom.h"
 
-FadeIntoRed::FadeIntoRed() {
+FadeRandom::FadeRandom() {
 
 };
 
-bool FadeIntoRed::tick() {
+bool FadeRandom::tick() {
   if (this->frame++ < 255) {
 
     for (int i = 0; i < NUM_PIXELS; i++) {
