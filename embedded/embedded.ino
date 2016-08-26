@@ -42,12 +42,6 @@ void setup() {
 
   ensureConnected();
 
-
-  ppln("[wc] connecting to server");
-
-  webSocket.begin(SERVER_HOST, SERVER_PORT);
-  webSocket.onEvent(webSocketEvent);
-
   ppln("[mc] setup complete");
 }
 
@@ -89,6 +83,9 @@ void ensureConnected() {
     ppln(".");
     pp("[wc] ip address: ");
     ppln(WiFi.localIP());
+    ppln("[wc] connecting to server");
+    webSocket.begin(SERVER_HOST, SERVER_PORT);
+    webSocket.onEvent(webSocketEvent);
   }
 }
 
