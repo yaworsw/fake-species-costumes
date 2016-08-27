@@ -59,12 +59,17 @@ void loop() {
     }
     show();
   }
+#ifdef DELAY
+  delay(DELAY);
+#endif // DELAY
 }
 
 void webSocketEvent(WStype_t type, uint8_t* payload, size_t lenght) {
   switch (type) {
     case WStype_DISCONNECTED:
       ppln("[ws] disconnected");
+      CLEAR_ACTIVE_ACTION();
+      off();
       connectWebSocket();
       break;
     case WStype_CONNECTED:
@@ -87,6 +92,8 @@ void connectWebSocket() {
 
 void ensureConnected() {
   if (!connected()) {
+    CLEAR_ACTIVE_ACTION();
+    off();
     connect();
     int itters = 0;
     while (!connected()) {
@@ -98,6 +105,7 @@ void ensureConnected() {
         connect();
         itters = 0;
       }
+      delay(20);
     }
     ppln(".");
     pp("[wc] ip address: ");

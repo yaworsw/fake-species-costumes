@@ -9,6 +9,8 @@ Action* getAction(String itIs) {
   _IF(itIs, "s") Sparkles();
   _IF(itIs, "2") Twinkle();
   _IF(itIs, "3") FadeRandom();
+  _IF(itIs, "r") Rainbow();
+  _IF(itIs, "q") RainbowShift();
   ______________ Off();
 }
 

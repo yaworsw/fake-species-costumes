@@ -3,7 +3,7 @@
   document.body.innerHTML = '<div id="ping"></div>';
 
   var socket = new WebSocket(
-    'ws://localhost:8080'
+    'ws://192.168.1.126:8080'
   );
 
   socket.onclose = everything;

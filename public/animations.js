@@ -4,5 +4,7 @@ var animations = {
   "1": "Fade to red",
   "s": "Sparkles",
   "2": "Twinkle",
-  "3": "FadeRandom"
+  "3": "FadeRandom",
+  "r": "Rainbow",
+  "q": "RainbowShift"
 };
